@@ -1,0 +1,560 @@
+{
+	"Alert Text": {
+		"prefix": "alert_text",
+		"scope": "ruby",
+		"body": [
+		  "${1:attribute} = page.driver.browser.switch_to.alert.text"
+		],
+		"description": "Capture the message shown in Alert Popup"
+	},
+	"Alert Accept": {
+		"prefix": "alert_accept",
+		"scope": "ruby",
+		"body": [
+		  "page.driver.browser.switch_to.alert.accept"
+		],
+		"description": "Accept the Alert message"
+	},
+	"Alert Dismiss": {
+		"prefix": "alert_dismiss",
+		"scope": "ruby",
+		"body": [
+		  "page.driver.browser.switch_to.alert.dismiss"
+		],
+		"description": "Dismiss the Alert message"
+	},
+	"Alert Accept Prompt": {
+		"prefix": "accept_prompt",
+		"scope": "ruby",
+		"body": [
+			"accept_prompt(with: '${1:text}') do",
+			"\t$0",
+			"end"
+		],
+		"description": "Fill the Alert Prompt with text"
+	},
+	"Array": {
+		"prefix": "array",
+		"scope": "ruby",
+		"body": [
+		  "${1:array} = ['${2:elements}']"
+		],
+		"description": "array = [elements]"
+	},
+	"Attach File": {
+		"prefix": "attach",
+		"scope": "ruby",
+		"body": [
+		  "attach_file('${1:id}', ${2:file})"
+		],
+		"description": "attach_file('id', file)"
+	},
+	"Attribute Accessor": {
+		"prefix": "attr",
+		"scope": "ruby",
+		"body": [
+		  "attr_accessor :${1:attribute}"
+		],
+		"description": "attr_accessor :attribute"
+	},
+	"Base 64 Encoder": {
+		"prefix": "base64",
+		"scope": "ruby",
+		"body": [
+		  "Base64.encode64(File.open(${1:file}, \"${2|rb|}\").read)"
+		],
+		"description": "Base 64 Encoder"
+	},
+	"Before Each": {
+		"prefix": "befe",
+		"scope": "ruby",
+		"body": [
+		  "before(:each) do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "before(:each) do … end"
+	},
+	"Before Hook": {
+		"prefix": "befh",
+		"scope": "ruby",
+		"body": [
+		  "Before do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "Before Hook"
+	},
+	"Before Hook with parameter": {
+		"prefix": "befhp",
+		"scope": "ruby",
+		"body": [
+		  "Before('@${1:hook_name}') do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "Before Hook with parameter"
+	},
+	"Begin (Exception)": {
+		"prefix": "begine",
+		"scope": "ruby",
+		"body": [
+		  "begin",
+		  "\t$1",
+		  "rescue Exception => e",
+		  "\t$2",
+		  "end"
+		],
+		"description": "begin \n … \n rescue Exception => e \n … \n end"
+	},
+	"Capybara Configuration": {
+		"prefix": "capybara",
+		"scope": "ruby",
+		"body": [
+		  "Capybara.configure do |${1:config}|",
+		  "\t${1:config}.default_driver = :${2|selenium,selenium_chrome,selenium_chrome_headless|}",
+		  "\t${1:config}.default_max_wait_time = ${3:15}",
+		  "\t${1:config}.app_host = '${4:link}'",
+		  "end"
+		],
+		"description": "Capybara configuration"
+	},
+	"Capybara Ignore Hidden Elements": {
+		"prefix": "capybaraihe",
+		"scope": "ruby",
+		"body": [
+		  "Capybara.ignore_hidden_elements = ${1|false,true|}"
+		],
+		"description": "Capybara Ignore Hidden Elements"
+	},
+	"Check (Checkbox)": {
+		"prefix": "check",
+		"scope": "ruby",
+		"body": [
+		  "check('${1:item}')"
+		],
+		"description": "check('item')"
+	},
+	"Check False/True (Checkbox)": {
+		"prefix": "checkb",
+		"scope": "ruby",
+		"body": [
+		  "find('input[value=${1:item}]').set(${2|false,true|})"
+		],
+		"description": "find('input[value=item]').set(false)"
+	},
+	"Choose (Radio Button)": {
+		"prefix": "choose",
+		"scope": "ruby",
+		"body": [
+		  "choose('${1:item}')"
+		],
+		"description": "choose('item')"
+	},
+	"Class": {
+		"prefix": "class",
+		"scope": "ruby",
+		"body": [
+		  "class ${1:name}",
+		  "\t$0",
+		  "end"
+		],
+		"description": "class name … end"
+	},
+	"Class Inheritance": {
+		"prefix": "classi",
+		"scope": "ruby",
+		"body": [
+		  "class ${1:child} < ${2:parent}",
+		  "\t$0",
+		  "end"
+		],
+		"description": "class child < parent … end"
+	},
+	"Click Button": {
+		"prefix": "clickb",
+		"scope": "ruby",
+		"body": [
+		  "click_button '${1:text}'"
+		],
+		"description": "click_button 'text'"
+	},
+	"Click Link": {
+		"prefix": "clickl",
+		"scope": "ruby",
+		"body": [
+		  "click_link '${1:text}'"
+		],
+		"description": "click_link 'text'"
+	},
+	"Describe with Tag": {
+		"prefix": "desct",
+		"scope": "ruby",
+		"body": [
+		  "describe '${1:description}', :${2:tag} do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "describe 'description', :tag do … end"
+	},
+	"Detect Table": {
+		"prefix": "detect_all",
+		"scope": "ruby",
+		"body": [
+		  "${1:attribute} = all('${2:item}')",
+		  "${3:attribute} = ${1:attribute}.detect { |${4:attribute}| ${4:attribute}.text.include?('${5:text}') }",
+		  "expect(${3:attribute}.text).to include '${6:text}'"
+		],
+		"description": "Detect all items from a table and stores it in an attribute"
+	},
+	"Drag and Drop": {
+		"prefix": "dragdrop",
+		"scope": "ruby",
+		"body": [
+		  "${1:item}.drag_to ${2:destination}"
+		],
+		"description": "item.drag_to destination"
+	},
+	"Dropdown (Find and Select by Text)": {
+		"prefix": "dropdowntext",
+		"scope": "ruby",
+		"body": [
+		  "${1:attribute} = find('${2:id}')",
+		  "${1:attribute}.find('option', text: '${3:text}').select_option"
+		],
+		"description": "attribute = find('id') \n attribute.find('option', text: 'text').select_option"
+	},
+	"Dropdown (Find and Select Randomly)": {
+		"prefix": "dropdownrandom",
+		"scope": "ruby",
+		"body": [
+		  "${1:attribute} = find('${2:id}')",
+		  "${1:attribute}.all('option').sample.select_option"
+		],
+		"description": "attribute = find('id') \n attribute.all('option').sample.select_option"
+	},
+	"Each Loop": {
+		"prefix": "each",
+		"scope": "ruby",
+		"body": [
+		  "${1:array}.each do |${2:item}|",
+		  "\t$0",
+		  "end"
+		],
+		"description": "array.each do |item| … end"
+	},
+	"Each Loop with Index": {
+		"prefix": "eachi",
+		"scope": "ruby",
+		"body": [
+		  "${1:array}.each_with_index do |${2:item}, ${3:index}|",
+		  "\t$0",
+		  "end"
+		],
+		"description": "Each loop with indexes"
+	},
+	"Embed File": {
+		"prefix": "embed",
+		"scope": "ruby",
+		"body": [
+		  "embed(${1:file}, \"${2|image/png|}\", \"${3:name}\")"
+		],
+		"description": "Embed File"
+	},
+	"Feature": {
+		"prefix": "feature",
+		"scope": "feature",
+		"body": [
+		  "Funcionalidade: ${1:description}",
+		  "\tPara que eu ${2:…}",
+		  "\tSendo ${3:…}",
+		  "\tPosso ${4:…}"
+		],
+		"description": "Feature Cucumber"
+	},
+	"File Join": {
+		"prefix": "filep",
+		"scope": "ruby",
+		"body": [
+		  "File.join(${1:file_path1}, ${2:file_path2})"
+		],
+		"description": "File Join"
+	},
+	"Fill In With": {
+		"prefix": "fill",
+		"scope": "ruby",
+		"body": [
+		  "fill_in '${1:id}', with: '${2:text}'"
+		],
+		"description": "fill_in 'id', with: 'text'"
+	},
+	"Find": {
+		"prefix": "find",
+		"scope": "ruby",
+		"body": [
+		  "find('${1:item}')"
+		],
+		"description": "Find a field"
+	},
+	"Find Text": {
+		"prefix": "findt",
+		"scope": "ruby",
+		"body": [
+		  "find('${1:item}', text: '${2:text}')"
+		],
+		"description": "Find a field by text"
+	},
+	"Find and Click": {
+		"prefix": "find_click",
+		"scope": "ruby",
+		"body": [
+		  "${1:item}.find('${2:text}').click"
+		],
+		"description": "Find an item and click on it"
+	},
+	"Find and Set": {
+		"prefix": "find_set",
+		"scope": "ruby",
+		"body": [
+		  "find('${1:item}').set ${2:attribute}"
+		],
+		"description": "Find and set a field"
+	},
+	"For Loop": {
+		"prefix": "for",
+		"scope": "ruby",
+		"body": [
+		  "for ${1:item} in (${2:interval})",
+		  "\t$0",
+		  "end"
+		],
+		"description": "For Loop"
+	},
+	"Full File Path": {
+        "prefix": "path",
+        "scope": "ruby",
+        "body": [
+			"$TM_FILEPATH"
+		],
+		"description": "The full file path of the current document"
+	},
+	"Get Directory PWD": {
+		"prefix": "dirpwd",
+		"scope": "ruby",
+		"body": [
+		  "Dir.pwd"
+		],
+		"description": "Get Directory PWD"
+	},
+	"If": {
+		"prefix": "if",
+		"scope": "ruby",
+		"body": [
+		  "if (${1:condition1})",
+		  "\t$0",
+		  "end"
+		],
+		"description": "If conditional"
+	},
+	"If Else": {
+		"prefix": "ifelse",
+		"scope": "ruby",
+		"body": [
+		  "if (${1:condition1})",
+		  "\t$2",
+		  "else",
+		  "\t$3",
+		  "end"
+		],
+		"description": "If Else conditional"
+	},
+	"If Elsif Else": {
+		"prefix": "ifelsif",
+		"scope": "ruby",
+		"body": [
+		  "if (${1:condition1})",
+		  "\t$2",
+		  "elsif (${3:condition2})",
+		  "\t$4",
+		  "else",
+		  "\t$5",
+		  "end"
+		],
+		"description": "If Elsif Else conditional"
+	},
+	"Include Capybara DSL": {
+		"prefix": "includedsl",
+		"scope": "ruby",
+		"body": [
+		  "include Capybara::DSL"
+		],
+		"description": "Include Capybara DSL"
+	},
+	"Initialize": {
+		"prefix": "init",
+		"scope": "ruby",
+		"body": [
+		  "def initialize(${1:param})",
+		  "\tself.${2:attribute} = ${1:param}",
+		  "end"
+		],
+		"description": "It creates the constructor for ruby."
+	},
+	"It with Tag": {
+		"prefix": "ittag",
+		"scope": "ruby",
+		"body": [
+		  "it '${1:description}', :${2:tag} do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "it with tag"
+	},
+	"Method Definition": {
+		"prefix": "def",
+		"scope": "ruby",
+		"body": [
+		  "def ${1:name}(${2:param})",
+		  "\t$0",
+		  "end"
+		],
+		"description": "def name(param) … end"
+	},
+	"Method Definition (Exception)": {
+		"prefix": "defe",
+		"scope": "ruby",
+		"body": [
+		  "def ${1:name}(${2:param})",
+		  "\t$3",
+		  "rescue Exception => e",
+		  "\t$4",
+		  "end"
+		],
+		"description": "def name(param) \n … \n rescue Exception => e \n … \n end"
+	},
+	"Send Key": {
+		"prefix": "sendkey",
+		"scope": "ruby",
+		"body": [
+		  "find('#${1:id}').send_keys ${2:key}"
+		],
+		"description": "find('#id').send_keys key"
+	},
+	"Select": {
+		"prefix": "select",
+		"scope": "ruby",
+		"body": [
+		  "select('${1:option}', from: '${2:id}')"
+		],
+		"description": "select('option', from: 'id')"
+	},
+	"Screenshot": {
+		"prefix": "screenshot",
+		"scope": "ruby",
+		"body": [
+		  "page.save_screenshot('${1:path}')"
+		],
+		"description": "Save a screenshot of an example"
+	},
+	"Script": {
+		"prefix": "script",
+		"scope": "ruby",
+		"body": [
+			"${1:script} = '$(\"${2:class}\").attr(\"${3:id}\", \"${4:tempId}\");'",
+			"page.execute_script(${1:script})"
+		],
+		"description": "Execute script in order to add a temporary id to a class"
+	},
+	"Table | Get Specific td": {
+		"prefix": "table_td",
+		"scope": "ruby",
+		"body": [
+		  "${1:attribute} = find('${2:class}', text: '${3:text}')",
+		  "${4:attribute} = ${1:attribute}.all('${5:td}')[${6:td}].text",
+		  "expect(${4:attribute}).to eql '${7:text}'"
+		],
+		"description": "Detect all items from a table and stores it in an attribute"
+	},
+	"Times Loop": {
+		"prefix": "times",
+		"scope": "ruby",
+		"body": [
+		  "${1:attribute}.times do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "Times loop"
+	},
+	"Uncheck (Checkbox)": {
+		"prefix": "uncheck",
+		"scope": "ruby",
+		"body": [
+		  "uncheck('${1:item}')"
+		],
+		"description": "uncheck('item')"
+	},
+	"Visit Link": {
+		"prefix": "visit",
+		"scope": "ruby",
+		"body": [
+		  "visit '${1:link}'"
+		],
+		"description": "visit a given link"
+	},
+	"While Loop": {
+		"prefix": "while",
+		"scope": "ruby",
+		"body": [
+		  "${1:attribute} = ${2:value}",
+		  "while ${1:attribute} <= ${3:limit} do",
+		  "\t$0",
+		  "\t${1:attribute} += 1",
+		  "end"
+		],
+		"description": "While Loop with initial atribute"
+	},
+	"Window Maximize": {
+		"prefix": "windowm",
+		"scope": "ruby",
+		"body": [
+		  "page.driver.browser.manage.window.maximize"
+		],
+		"description": "Window Maximize"
+	},
+	"Window Resize": {
+		"prefix": "windowr",
+		"scope": "ruby",
+		"body": [
+		  "page.current_window.resize_to(${1:1280},${2:800})"
+		],
+		"description": "Window Resize"
+	},
+	"Within": {
+		"prefix": "within",
+		"scope": "ruby",
+		"body": [
+		  "within('${1:attribute}') do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "Scope"
+	},
+	"Within Frame": {
+		"prefix": "withinf",
+		"scope": "ruby",
+		"body": [
+		  "within_frame('${1:attribute}') do",
+		  "\t$0",
+		  "end"
+		],
+		"description": "iFrame Scope"
+	},
+	"Yaml Load File": {
+		"prefix": "yaml",
+		"scope": "ruby",
+		"body": [
+		  "YAML.load_file(${1:file_path})"
+		],
+		"description": "Yaml Load File"
+	}
+}

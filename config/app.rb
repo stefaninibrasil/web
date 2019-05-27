@@ -2,9 +2,9 @@
 
 require_relative 'dotenv'
 
-class Application
+module App
     
-    Dotenv.require_keys("APP_ENV", "APP_URL")
+    Dotenv.require_keys("APP_ENV", "APP_HOST")
 
     def envs
         {
@@ -30,7 +30,7 @@ class Application
             # | your application so that it is used when running Artisan tasks.
             # |
 
-            'url' => ENV.fetch('APP_URL', 'http://localhost')
+            'host' => ENV.fetch('APP_HOST', 'http://localhost')
         }
     end
 end
