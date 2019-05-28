@@ -1,0 +1,84 @@
+require_relative 'dotenv'
+
+module DatabaseModule
+
+    include EnvironmentModule
+
+    Dotenv.require_keys("DB_TYPE", "DB_HOST", "DB_USER", "DB_PASS", "DB_NAME", "DB_PORT")
+
+    def self.env
+        {
+            'db_type' => ENV.fetch('DB_TYPE', 'mysql'),
+
+            'connections' => [
+
+                'sqlite' => [
+                    'driver' => 'sqlite',
+                    # 'database' => ENV.fetch('DB_TYPE', database_path('database.sqlite')),
+                    # 'prefix' => ''
+                    # 'foreign_key_constraints' => ENV.fetch('DB_FOREIGN_KEYS', true),
+                ],
+
+                'mysql' => [
+                    'driver' => 'mysql',
+                    'host' => ENV.fetch('DB_HOST', '127.0.0.1'),
+                    'port' => ENV.fetch('DB_PORT', '3306'),
+                    'database' => ENV.fetch('DB_TYPE', 'forge'),
+                    'username' => ENV.fetch('DB_USER', 'forge'),
+                    'password' => ENV.fetch('DB_PASS', ''),
+                    'unix_socket' => ENV.fetch('DB_SOCKET', ''),
+                    'charset' => 'utf8mb4',
+                    'collation' => 'utf8mb4_unicode_ci',
+                    'prefix' => '',
+                    'prefix_indexes' => true,
+                    'strict' => true,
+                    'engine' => nil
+                ],
+
+                'pgsql' => [
+                    'driver' => 'pgsql',
+                    'host' => ENV.fetch('DB_HOST', '127.0.0.1'),
+                    'port' => ENV.fetch('DB_PORT', '5432'),
+                    'database' => ENV.fetch('DB_TYPE', 'forge'),
+                    'username' => ENV.fetch('DB_USER', 'forge'),
+                    'password' => ENV.fetch('DB_PASS', ''),
+                    'charset' => 'utf8',
+                    'prefix' => '',
+                    'prefix_indexes' => true,
+                    'schema' => 'public',
+                    'sslmode' => 'prefer',
+                ],
+
+                'sqlsrv' => [
+                    'driver' => 'sqlsrv',
+                    'host' => ENV.fetch('DB_HOST', 'localhost'),
+                    'port' => ENV.fetch('DB_PORT', '1433'),
+                    'database' => ENV.fetch('DB_TYPE', 'forge'),
+                    'username' => ENV.fetch('DB_USER', 'forge'),
+                    'password' => ENV.fetch('DB_PASS', ''),
+                    'charset' => 'utf8',
+                    'prefix' => '',
+                    'prefix_indexes' => true,
+                ],
+
+            ],
+        }
+    end
+end
+
+# @connection = Database.env['connections'][0][Database.env['default']]
+    
+#     def connection(database)
+#         if database == 'mysql'
+#             @connection = MYSQL.connect()
+#         elsif database == 'pgsql'
+#             @connection = PG.connect(host: self.host, dbname: self.dbname, user: self.user, password: self.password)
+#         end
+#     end
+
+
+# db = Database.new.envs
+# db.each do |key, value|
+#     puts key['connections'][0]['pgsql']
+# end
+
