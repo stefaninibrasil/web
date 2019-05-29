@@ -13,14 +13,22 @@ module Modules
             ENV[key] = default_value.to_s
             classModule.env[key] = ENV[key]
         end
-        classModule.env[key]
+        classModule.env[key].to_s
+    end
+
+    def self.checkDatabaseEnvKeys(key_name, default_value, database_name, database_key)
+        configuration = self.getDatabaseConfiguration(database_name.to_s)
+        key = key_name.to_s.downcase
+        database_key = database_key.to_s.downcase
+        if ENV.has_key?(key) && ENV[key].to_s.empty?
+            ENV[key] = default_value.to_s
+            configuration[database_key] = ENV[key]
+        end
+        configuration[database_key]
     end
 
     def self.getDatabaseConfiguration(database_name)
-        connections = DatabaseModule.env['connections']
-        connections.each do |connection|
-            connection[database_name.to_s]
-        end 
+        DatabaseModule.env['connections'].first[database_name.to_s].first
     end
 
     # AppModule
@@ -92,58 +100,46 @@ module Modules
 
     # DatabaseModule
     class Database
-
         def self.database
             Modules.checkEnvKeys('DB_TYPE', 'mysql', DatabaseModule)
         end
 
         def self.connection
-            unless self.database.to_s.empty?
-                if ['mysql', 'pgsql', 'sqlsrv'].include?(self.database.to_s)
+            unless self.database.empty?
+                if ['mysql', 'pgsql', 'sqlsrv', 'sqlite'].include?(self.database)
                     if self.database === 'mysql'
                         Modules.getDatabaseConfiguration(self.database)
                     elsif self.database === 'pgsql'
-                        'é postresql'
+                        Modules.getDatabaseConfiguration(self.database)
                     elsif self.database === 'sqlsrv'
-                        'é sql server'
+                        Modules.getDatabaseConfiguration(self.database)
+                    elsif self.database === 'sqlite'
+                        Modules.getDatabaseConfiguration(self.database)
                     end
                 else
-                    'virou mysql'
+                    Modules.getDatabaseConfiguration('mysql')
                 end
             end
         end
 
-        # def self.host
-        #     Modules.checkEnvKeys('DB_HOST', '127.0.0.1', DatabaseModule)
-        # end
+        def self.host
+            Modules.checkDatabaseEnvKeys('DB_HOST', '127.0.0.1', self.connection['driver'], 'host')
+        end
 
-        # def self.port
-        #     Modules.checkEnvKeys('DB_PORT', '5432', DatabaseModule)
-        # end
+        def self.port
+            Modules.checkDatabaseEnvKeys('DB_PORT', '5432', self.connection['driver'], 'port')
+        end
 
-        # def self.name
-        #     Modules.checkEnvKeys('DB_NAME', 'forge', DatabaseModule)
-        # end
+        def self.name
+            Modules.checkDatabaseEnvKeys('DB_NAME', 'forge', self.connection['driver'], 'database')
+        end
 
-        # def self.user
-        #     Modules.checkEnvKeys('DB_USER', 'forge', DatabaseModule)
-        # end
+        def self.user
+            Modules.checkDatabaseEnvKeys('DB_USER', 'forge', self.connection['driver'], 'username')
+        end
 
-        # def self.pass
-        #     Modules.checkEnvKeys('DB_PASS', '', DatabaseModule)
-        # end
-
-        # def self.connection
-            
-        # end
-        
+        def self.pass
+            Modules.checkDatabaseEnvKeys('DB_PASS', '', self.connection['driver'], 'password')
+        end        
     end
 end
-
-
-# puts Modules::Database.connection
-
-connections = DatabaseModule.env['connections']
-connections.each do |connection|
-    connection["mysql"]
-end 

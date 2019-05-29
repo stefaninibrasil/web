@@ -13,7 +13,7 @@ module DatabaseModule
             'connections' => [
 
                 'sqlite' => [
-                    'driver' => 'sqlite',
+                    'driver' => 'sqlite'
                     # 'database' => ENV.fetch('DB_TYPE', database_path('database.sqlite')),
                     # 'prefix' => ''
                     # 'foreign_key_constraints' => ENV.fetch('DB_FOREIGN_KEYS', true),
