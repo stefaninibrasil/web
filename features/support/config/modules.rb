@@ -1,11 +1,15 @@
-require_relative File.join(Dir.pwd, 'config/app')
-require_relative File.join(Dir.pwd, 'config/browser')
-require_relative File.join(Dir.pwd, 'config/database')
+require_relative 'app'
+require_relative 'browser'
+require_relative 'database'
+require_relative 'mail'
+require_relative 'report'
 
 module Modules
     include AppModule
     include BrowserModule
     include DatabaseModule
+    include MailModule
+    include ReportModule
 
     def self.checkEnvKeys(key_name, default_value, classModule)
         key = key_name.to_s.downcase
@@ -58,13 +62,13 @@ module Modules
             
             case browser
             when "chrome"
-                driver = ':selenium_chrome'
+                driver = :selenium_chrome
             when "chrome_headless"
-                driver = ':selenium_chrome_headless'
+                driver = :selenium_chrome_headless
             when "firefox_headless"
-                driver = ':selenium_headless'
+                driver = :selenium_headless
             else
-                driver = ':selenium'
+                driver = :selenium
             end
             driver
         end
@@ -107,15 +111,7 @@ module Modules
         def self.connection
             unless self.database.empty?
                 if ['mysql', 'pgsql', 'sqlsrv', 'sqlite'].include?(self.database)
-                    if self.database === 'mysql'
-                        Modules.getDatabaseConfiguration(self.database)
-                    elsif self.database === 'pgsql'
-                        Modules.getDatabaseConfiguration(self.database)
-                    elsif self.database === 'sqlsrv'
-                        Modules.getDatabaseConfiguration(self.database)
-                    elsif self.database === 'sqlite'
-                        Modules.getDatabaseConfiguration(self.database)
-                    end
+                    Modules.getDatabaseConfiguration(self.database)
                 else
                     Modules.getDatabaseConfiguration('mysql')
                 end
@@ -141,5 +137,55 @@ module Modules
         def self.pass
             Modules.checkDatabaseEnvKeys('DB_PASS', '', self.connection['driver'], 'password')
         end        
+    end
+
+    # MailModule
+    class Mail
+        def self.driver
+            Modules.checkEnvKeys('MAIL_TYPE', 'smtp2', MailModule)
+        end
+
+        def self.host
+            Modules.checkEnvKeys('MAIL_HOST', 'smtp.mailgun.org', MailModule)
+        end
+
+        def self.port
+            Modules.checkEnvKeys('MAIL_PORT', 587, MailModule)
+        end
+
+        def self.user
+            Modules.checkEnvKeys('MAIL_USER', '', MailModule)
+        end
+
+        def self.pass
+            Modules.checkEnvKeys('MAIL_PASS', '', MailModule)
+        end
+
+        def self.hash
+            Modules.checkEnvKeys('MAIL_HASH', 'tls', MailModule)
+        end
+
+        def self.addr
+            Modules.checkEnvKeys('MAIL_ADDR', 'hello@example.com', MailModule)
+        end
+
+        def self.name
+            Modules.checkEnvKeys('MAIL_NAME', 'Example', MailModule)
+        end
+    end
+
+    # ReportModule
+    class Report
+        def self.extension
+            Modules.checkEnvKeys('REPORT_TYPE', 'html', ReportModule)
+        end
+
+        def self.only_defects
+            Modules.checkEnvKeys('REPORT_ONLY_DEFECTS', false, ReportModule)
+        end
+
+        def self.include_evidences
+            Modules.checkEnvKeys('REPORT_INCLUDE_EVIDENCES', false, ReportModule)
+        end
     end
 end

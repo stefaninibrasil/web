@@ -1,1 +1,0 @@
-puts Application.new.config.database

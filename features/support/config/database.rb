@@ -65,20 +65,3 @@ module DatabaseModule
         }
     end
 end
-
-# @connection = Database.env['connections'][0][Database.env['default']]
-    
-#     def connection(database)
-#         if database == 'mysql'
-#             @connection = MYSQL.connect()
-#         elsif database == 'pgsql'
-#             @connection = PG.connect(host: self.host, dbname: self.dbname, user: self.user, password: self.password)
-#         end
-#     end
-
-
-# db = Database.new.envs
-# db.each do |key, value|
-#     puts key['connections'][0]['pgsql']
-# end
-
