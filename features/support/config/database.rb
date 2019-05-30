@@ -10,6 +10,8 @@ module DatabaseModule
         {
             'db_type' => ENV.fetch('DB_TYPE', 'mysql'),
 
+            'db_sshd' => ENV.fetch('DB_SSHD', false),
+
             'connections' => [
 
                 'sqlite' => [

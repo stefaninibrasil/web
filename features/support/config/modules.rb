@@ -3,6 +3,7 @@ require_relative 'browser'
 require_relative 'database'
 require_relative 'mail'
 require_relative 'report'
+require_relative 'ssh'
 
 module Modules
     include AppModule
@@ -10,6 +11,7 @@ module Modules
     include DatabaseModule
     include MailModule
     include ReportModule
+    include SSHModule
 
     def self.checkEnvKeys(key_name, default_value, classModule)
         key = key_name.to_s.downcase
@@ -108,6 +110,10 @@ module Modules
             Modules.checkEnvKeys('DB_TYPE', 'mysql', DatabaseModule)
         end
 
+        def self.sshd
+            Modules.checkEnvKeys('DB_SSHD', false, DatabaseModule)
+        end
+
         def self.connection
             unless self.database.empty?
                 if ['mysql', 'pgsql', 'sqlsrv', 'sqlite'].include?(self.database)
@@ -186,6 +192,25 @@ module Modules
 
         def self.include_evidences
             Modules.checkEnvKeys('REPORT_INCLUDE_EVIDENCES', false, ReportModule)
+        end
+    end
+
+    # SSHModule
+    class SSH
+        def self.host
+            Modules.checkEnvKeys('SSH_HOST', 'localhost', SSHModule)
+        end
+
+        def self.user
+            Modules.checkEnvKeys('SSH_USER', '', SSHModule)
+        end
+
+        def self.pass
+            Modules.checkEnvKeys('SSH_PASS', '', SSHModule)
+        end
+        
+        def self.port
+            Modules.checkEnvKeys('SSH_PORT', 22, SSHModule)
         end
     end
 end

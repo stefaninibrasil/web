@@ -1,7 +1,7 @@
 require 'pg'
 require_relative '../../config/modules'
 
-module Model
+module PostgreSQLModelModule
     include Modules
 
     def self.conn
