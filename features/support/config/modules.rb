@@ -14,17 +14,17 @@ module Modules
     include SSHModule
 
     def self.checkEnvKeys(key_name, default_value, classModule)
-        key = key_name.to_s.downcase
+        key = key_name.to_s.downcase.split(':').last
         if ENV.has_key?(key) && ENV[key].to_s.empty?
             ENV[key] = default_value.to_s
-            classModule.env[key] = ENV[key]
+            classModule.env[key_name] = ENV[key]
         end
-        classModule.env[key].to_s
+        classModule.env[key_name]
     end
 
     def self.checkDatabaseEnvKeys(key_name, default_value, database_name, database_key)
         configuration = self.getDatabaseConfiguration(database_name.to_s)
-        key = key_name.to_s.downcase
+        key = key_name.to_s.downcase.split(':').last
         database_key = database_key.to_s.downcase
         if ENV.has_key?(key) && ENV[key].to_s.empty?
             ENV[key] = default_value.to_s
@@ -40,22 +40,23 @@ module Modules
     # AppModule
     class App
         def self.env
-            Modules.checkEnvKeys('APP_ENV', 'production', AppModule)
+            # AppModule.env[:app_env]
+            Modules.checkEnvKeys(:app_env, 'production', AppModule)
         end
 
         def self.host
-            Modules.checkEnvKeys('APP_HOST', 'http://localhost', AppModule)
+            Modules.checkEnvKeys(:app_host, 'http://localhost', AppModule)
         end
     end
 
     # BrowserModule
     class Browser
         def self.browser
-            Modules.checkEnvKeys('BROWSER', 'firefox', BrowserModule)
+            Modules.checkEnvKeys(:browser, 'firefox', BrowserModule)
         end
 
         def self.browserHeadless
-            Modules.checkEnvKeys('BROWSER_HEADLESS', false, BrowserModule)
+            Modules.checkEnvKeys(:browser_headless, false, BrowserModule)
         end 
 
         def self.driver
@@ -76,42 +77,42 @@ module Modules
         end
 
         def self.driverWaiter
-            Modules.checkEnvKeys('DEFAULT_MAX_WAIT_TIME', 2, BrowserModule)
+            Modules.checkEnvKeys(:default_max_wait_time, 2, BrowserModule)
         end
 
         def self.screenshot
-            Modules.checkEnvKeys('SCREENSHOT', false, BrowserModule)
+            Modules.checkEnvKeys(:screenshot, false, BrowserModule)
         end
         
         def self.screenshotType
-            Modules.checkEnvKeys('SCREENSHOT_TYPE', 'image/png', BrowserModule)
+            Modules.checkEnvKeys(:screenshot_type, 'image/png', BrowserModule)
         end
 
         def self.screenshotEmbedded
-            Modules.checkEnvKeys('SCREENSHOT_EMBEDDED', false, BrowserModule)
+            Modules.checkEnvKeys(:screenshot_embedded, false, BrowserModule)
         end
 
         def self.screenshotOnlyFailures
-            Modules.checkEnvKeys('SCREENSHOT_ONLY_FAILURES', false, BrowserModule)
+            Modules.checkEnvKeys(:screenshot_only_failures, false, BrowserModule)
         end
 
         def self.windowSizeWidth
-            Modules.checkEnvKeys('WINDOW_SIZE_WIDTH', 1366, BrowserModule)
+            Modules.checkEnvKeys(:window_size_width, 1366, BrowserModule)
         end
         
         def self.windowSizeHeight
-            Modules.checkEnvKeys('WINDOW_SIZE_HEIGHT', 768, BrowserModule)
+            Modules.checkEnvKeys(:window_size_height, 768, BrowserModule)
         end
     end
 
     # DatabaseModule
     class Database
         def self.database
-            Modules.checkEnvKeys('DB_TYPE', 'mysql', DatabaseModule)
+            Modules.checkEnvKeys(:db_type, 'mysql', DatabaseModule)
         end
 
         def self.sshd
-            Modules.checkEnvKeys('DB_SSHD', false, DatabaseModule)
+            Modules.checkEnvKeys(:db_sshd, false, DatabaseModule)
         end
 
         def self.connection
@@ -125,92 +126,92 @@ module Modules
         end
 
         def self.host
-            Modules.checkDatabaseEnvKeys('DB_HOST', '127.0.0.1', self.connection['driver'], 'host')
+            Modules.checkDatabaseEnvKeys(:db_host, '127.0.0.1', self.connection['driver'], 'host')
         end
 
         def self.port
-            Modules.checkDatabaseEnvKeys('DB_PORT', '5432', self.connection['driver'], 'port')
+            Modules.checkDatabaseEnvKeys(:db_port, '5432', self.connection['driver'], 'port')
         end
 
         def self.name
-            Modules.checkDatabaseEnvKeys('DB_NAME', 'forge', self.connection['driver'], 'database')
+            Modules.checkDatabaseEnvKeys(:db_name, 'forge', self.connection['driver'], 'database')
         end
 
         def self.user
-            Modules.checkDatabaseEnvKeys('DB_USER', 'forge', self.connection['driver'], 'username')
+            Modules.checkDatabaseEnvKeys(:db_user, 'forge', self.connection['driver'], 'username')
         end
 
         def self.pass
-            Modules.checkDatabaseEnvKeys('DB_PASS', '', self.connection['driver'], 'password')
+            Modules.checkDatabaseEnvKeys(:db_pass, '', self.connection['driver'], 'password')
         end        
     end
 
     # MailModule
     class Mail
         def self.driver
-            Modules.checkEnvKeys('MAIL_TYPE', 'smtp2', MailModule)
+            Modules.checkEnvKeys(:mail_type, 'smtp2', MailModule)
         end
 
         def self.host
-            Modules.checkEnvKeys('MAIL_HOST', 'smtp.mailgun.org', MailModule)
+            Modules.checkEnvKeys(:mail_host, 'smtp.mailgun.org', MailModule)
         end
 
         def self.port
-            Modules.checkEnvKeys('MAIL_PORT', 587, MailModule)
+            Modules.checkEnvKeys(:mail_port, 587, MailModule)
         end
 
         def self.user
-            Modules.checkEnvKeys('MAIL_USER', '', MailModule)
+            Modules.checkEnvKeys(:mail_user, '', MailModule)
         end
 
         def self.pass
-            Modules.checkEnvKeys('MAIL_PASS', '', MailModule)
+            Modules.checkEnvKeys(:mail_pass, '', MailModule)
         end
 
         def self.hash
-            Modules.checkEnvKeys('MAIL_HASH', 'tls', MailModule)
+            Modules.checkEnvKeys(:mail_hash, 'tls', MailModule)
         end
 
         def self.addr
-            Modules.checkEnvKeys('MAIL_ADDR', 'hello@example.com', MailModule)
+            Modules.checkEnvKeys(:mail_addr, 'hello@example.com', MailModule)
         end
 
         def self.name
-            Modules.checkEnvKeys('MAIL_NAME', 'Example', MailModule)
+            Modules.checkEnvKeys(:mail_name, 'Example', MailModule)
         end
     end
 
     # ReportModule
     class Report
         def self.extension
-            Modules.checkEnvKeys('REPORT_TYPE', 'html', ReportModule)
+            Modules.checkEnvKeys(:report_type, 'html', ReportModule)
         end
 
         def self.only_defects
-            Modules.checkEnvKeys('REPORT_ONLY_DEFECTS', false, ReportModule)
+            Modules.checkEnvKeys(:report_only_defects, false, ReportModule)
         end
 
         def self.include_evidences
-            Modules.checkEnvKeys('REPORT_INCLUDE_EVIDENCES', false, ReportModule)
+            Modules.checkEnvKeys(:report_include_evidences, false, ReportModule)
         end
     end
 
     # SSHModule
     class SSH
         def self.host
-            Modules.checkEnvKeys('SSH_HOST', 'localhost', SSHModule)
+            Modules.checkEnvKeys(:ssh_host, 'localhost', SSHModule)
         end
 
         def self.user
-            Modules.checkEnvKeys('SSH_USER', '', SSHModule)
+            Modules.checkEnvKeys(:ssh_user, '', SSHModule)
         end
 
         def self.pass
-            Modules.checkEnvKeys('SSH_PASS', '', SSHModule)
+            Modules.checkEnvKeys(:ssh_pass, '', SSHModule)
         end
         
         def self.port
-            Modules.checkEnvKeys('SSH_PORT', 22, SSHModule)
+            Modules.checkEnvKeys(:ssh_port, 22, SSHModule)
         end
     end
 end
