@@ -80,6 +80,10 @@ module Modules
         def self.driverWaiter
             Modules.checkEnvKeys(:default_max_wait_time, 2, BrowserModule)
         end
+        
+        def self.ignoreHiddenElements
+            Modules.checkEnvKeys(:ignore_hidden_elements, false, BrowserModule)
+        end
 
         def self.screenshot
             Modules.checkEnvKeys(:screenshot, false, BrowserModule)

@@ -10,7 +10,8 @@ require_relative 'config/modules'
 World(Modules)
 
 Capybara.configure do |config|
+    config.app_host = Modules::App.host
     config.default_driver = Modules::Browser.driver
     config.default_max_wait_time = Modules::Browser.driverWaiter
-    config.app_host = Modules::App.host
+    config.ignore_hidden_elements = Modules::Browser.ignoreHiddenElements
 end
