@@ -1,9 +1,13 @@
 require 'capybara'
 require 'capybara/cucumber'
 require 'dotenv/load'
+require 'mysql2'
 require 'os'
+require 'pg'
+require 'pry'
 require 'rdoc/rdoc'
 require 'selenium-webdriver'
+require 'sqlite3'
 
 require_relative 'config/modules'
 
