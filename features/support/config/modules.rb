@@ -23,18 +23,19 @@ module Modules
     end
 
     def self.checkDatabaseEnvKeys(key_name, default_value, database_name, database_key)
-        configuration = self.getDatabaseConfiguration(database_name.to_s)
+        configuration = self.getDatabaseConfiguration(database_name)
         key = key_name.to_s.downcase.split(':').last
         database_key = database_key.to_s.downcase
+
         if ENV.has_key?(key) && ENV[key].to_s.empty?
             ENV[key] = default_value.to_s
-            configuration[database_key] = ENV[key]
+            configuration[database_key.to_sym] = ENV[key]
         end
-        configuration[database_key]
+        configuration[database_key.to_sym]
     end
 
     def self.getDatabaseConfiguration(database_name)
-        DatabaseModule.env['connections'].first[database_name.to_s].first
+        DatabaseModule.env[:connections][database_name.to_sym]
     end
 
     # AppModule
@@ -107,6 +108,7 @@ module Modules
 
     # DatabaseModule
     class Database
+
         def self.database
             Modules.checkEnvKeys(:db_type, 'mysql', DatabaseModule)
         end
@@ -116,7 +118,7 @@ module Modules
         end
 
         def self.connection
-            unless self.database.empty?
+            unless self.database.nil?
                 if ['mysql', 'pgsql', 'sqlsrv', 'sqlite'].include?(self.database)
                     Modules.getDatabaseConfiguration(self.database)
                 else
@@ -126,23 +128,23 @@ module Modules
         end
 
         def self.host
-            Modules.checkDatabaseEnvKeys(:db_host, '127.0.0.1', self.connection['driver'], 'host')
+            Modules.checkDatabaseEnvKeys(:db_host, '127.0.0.1', self.connection[:driver], 'host')
         end
 
         def self.port
-            Modules.checkDatabaseEnvKeys(:db_port, '5432', self.connection['driver'], 'port')
+            Modules.checkDatabaseEnvKeys(:db_port, '5432', self.connection[:driver], 'port')
         end
 
         def self.name
-            Modules.checkDatabaseEnvKeys(:db_name, 'forge', self.connection['driver'], 'database')
+            Modules.checkDatabaseEnvKeys(:db_name, 'forge', self.connection[:driver], 'database')
         end
 
         def self.user
-            Modules.checkDatabaseEnvKeys(:db_user, 'forge', self.connection['driver'], 'username')
+            Modules.checkDatabaseEnvKeys(:db_user, 'forge', self.connection[:driver], 'username')
         end
 
         def self.pass
-            Modules.checkDatabaseEnvKeys(:db_pass, '', self.connection['driver'], 'password')
+            Modules.checkDatabaseEnvKeys(:db_pass, '', self.connection[:driver], 'password')
         end        
     end
 
