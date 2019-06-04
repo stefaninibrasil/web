@@ -149,7 +149,20 @@ module Modules
 
         def self.pass
             Modules.checkDatabaseEnvKeys(:db_pass, '', self.connection[:driver], 'password')
-        end        
+        end     
+        
+        def self.localPort
+            if self.connection[:driver].to_s.eql?('pgsql')
+                @@port = '54320'
+            elsif self.connection[:driver].to_s.eql?('mysql')
+                @@port = '33060'
+            elsif self.connection[:driver].to_s.eql?('sqlsrv')
+                @@port = '14330'
+            else
+                @@port = ''
+            end
+            Modules.checkDatabaseEnvKeys(:db_sshp, @@port, self.connection[:driver], 'local_port')
+        end
     end
 
     # MailModule

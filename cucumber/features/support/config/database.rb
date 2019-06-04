@@ -16,13 +16,14 @@ module DatabaseModule
                     # database: ENV.fetch('DB_TYPE', database_path('database.sqlite')),
                     # prefix: ''
                     # foreign_key_constraints: ENV.fetch('DB_FOREIGN_KEYS', true),
+                    # local_port: ENV.fetch('DB_SSHP', '')
                 },
 
                 mysql: {
                     driver: 'mysql',
                     host: ENV.fetch('DB_HOST', '127.0.0.1'),
                     port: ENV.fetch('DB_PORT', '3306'),
-                    database: ENV.fetch('DB_TYPE', 'forge'),
+                    database: ENV.fetch('DB_NAME', 'forge'),
                     username: ENV.fetch('DB_USER', 'forge'),
                     password: ENV.fetch('DB_PASS', ''),
                     unix_socket: ENV.fetch('DB_SOCKET', ''),
@@ -31,14 +32,15 @@ module DatabaseModule
                     prefix: '',
                     prefix_indexes: true,
                     strict: true,
-                    engine: nil
+                    engine: nil,
+                    local_port: ENV.fetch('DB_SSHP', '33060')
                 },
 
                 pgsql: {
                     driver: 'pgsql',
                     host: ENV.fetch('DB_HOST', '127.0.0.1'),
                     port: ENV.fetch('DB_PORT', '5432'),
-                    database: ENV.fetch('DB_TYPE', 'forge'),
+                    database: ENV.fetch('DB_NAME', 'forge'),
                     username: ENV.fetch('DB_USER', 'forge'),
                     password: ENV.fetch('DB_PASS', ''),
                     charset: 'utf8',
@@ -46,18 +48,20 @@ module DatabaseModule
                     prefix_indexes: true,
                     schema: 'public',
                     sslmode: 'prefer',
+                    local_port: ENV.fetch('DB_SSHP', '54320')
                 },
 
                 sqlsrv: {
                     driver: 'sqlsrv',
                     host: ENV.fetch('DB_HOST', 'localhost'),
                     port: ENV.fetch('DB_PORT', '1433'),
-                    database: ENV.fetch('DB_TYPE', 'forge'),
+                    database: ENV.fetch('DB_NAME', 'forge'),
                     username: ENV.fetch('DB_USER', 'forge'),
                     password: ENV.fetch('DB_PASS', ''),
                     charset: 'utf8',
                     prefix: '',
                     prefix_indexes: true,
+                    local_port: ENV.fetch('DB_SSHP', '14330')
                 },
 
             },

@@ -8,6 +8,7 @@ require 'pry'
 require 'rdoc/rdoc'
 require 'selenium-webdriver'
 require 'sqlite3'
+require 'tiny_tds'
 
 require_relative 'config/modules'
 

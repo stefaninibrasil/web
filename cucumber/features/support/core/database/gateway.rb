@@ -2,7 +2,7 @@ require 'net/ssh/gateway'
 
 require_relative '../../config/modules'
 
-module Gateway
+module GatewayModule
     include Modules
 
     def self.tunnel
@@ -11,6 +11,6 @@ module Gateway
             Modules::SSH.user,
             password: Modules::SSH.pass
         )
-        port = gateway.open(Modules::Database.host, Modules::Database.port, 3307)
+        port = gateway.open(Modules::Database.host, Modules::Database.port, Modules::Database.localPort)
     end
 end
