@@ -9,7 +9,8 @@ module GatewayModule
         gateway = Net::SSH::Gateway.new(
             Modules::SSH.host,
             Modules::SSH.user,
-            password: Modules::SSH.pass
+            password: Modules::SSH.pass,
+            port: Modules::SSH.port
         )
         port = gateway.open(Modules::Database.host, Modules::Database.port, Modules::Database.localPort)
     end
