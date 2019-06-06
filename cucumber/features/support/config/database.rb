@@ -51,8 +51,8 @@ module DatabaseModule
                     local_port: ENV.fetch('DB_SSHP', '54320')
                 },
 
-                sqlsrv: {
-                    driver: 'sqlsrv',
+                mssql: {
+                    driver: 'mssql',
                     host: ENV.fetch('DB_HOST', 'localhost'),
                     port: ENV.fetch('DB_PORT', '1433'),
                     database: ENV.fetch('DB_NAME', 'forge'),

@@ -123,7 +123,7 @@ module Modules
 
         def self.connection
             unless self.database.nil?
-                if ['mysql', 'pgsql', 'sqlsrv', 'sqlite'].include?(self.database)
+                if ['mysql', 'pgsql', 'mssql', 'sqlite'].include?(self.database)
                     Modules.getDatabaseConfiguration(self.database)
                 else
                     Modules.getDatabaseConfiguration('mysql')
@@ -156,7 +156,7 @@ module Modules
                 @@port = '54320'
             elsif self.connection[:driver].to_s.eql?('mysql')
                 @@port = '33060'
-            elsif self.connection[:driver].to_s.eql?('sqlsrv')
+            elsif self.connection[:driver].to_s.eql?('mssql')
                 @@port = '14330'
             else
                 @@port = ''
